@@ -1,8 +1,7 @@
-fn main() {
-    let input = include_str!("input.txt");
-
+fn setup() -> (Vec<i32>, Vec<i32>) {
     let mut left_list: Vec<i32> = Vec::new();
     let mut right_list: Vec<i32> = Vec::new();
+    let input = include_str!("input.txt");
 
     for line in input.lines() {
         let parts: Vec<&str> = line.split(' ').collect();
@@ -12,6 +11,13 @@ fn main() {
         left_list.push(left);
         right_list.push(right);
     }
+
+    (left_list, right_list)
+}
+
+fn main() {
+    // Part one
+    let (mut left_list, mut right_list) = setup();
 
     let mut sum = 0;
 
@@ -36,4 +42,25 @@ fn main() {
     }
 
     println!("Sum: {}", sum);
+
+    // Part two
+    let (mut left_list, right_list) = setup();
+
+    let mut similarity_score = 0;
+
+    while !left_list.is_empty() {
+        let left_min_idx = left_list
+            .iter()
+            .enumerate()
+            .min_by_key(|(_, &val)| val)
+            .map(|(idx, _)| idx)
+            .unwrap();
+
+        let left_min = left_list.remove(left_min_idx);
+        let right_count = right_list.iter().filter(|&x| *x == left_min).count();
+
+        similarity_score += right_count as i32 * left_min;
+    }
+
+    println!("Similarity score: {}", similarity_score);
 }
