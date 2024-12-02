@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-    "aoc24-day1",
+    "aoc24-day1", "aoc24-day2",
 ]
 
 [workspace.dependencies]
